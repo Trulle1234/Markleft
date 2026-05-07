@@ -1,3 +1,5 @@
+// ps: i konw this code is awfull but if it works it works? ;-;
+
 function escapeHtml(text) {
   return text.replace(/[&<>]/g, (char) => ({
     "&": "&amp;",
@@ -35,6 +37,11 @@ export function parseMarkdown(markdown) {
     .replace(/(^|[\s>])\/([^/\n]+?)\/(?=\s|$|[<.,!?;:])/gim, "$1<em>$2</em>")
     .replace(/(^|[\s>])_([^_\n]+?)_(?=\s|$|[<.,!?;:])/gim, "$1<u>$2</u>")
     .replace(/(^|[\s>])-([^- \n][^-\n]*?)-(?=\s|$|[<.,!?;:])/gim, "$1<s>$2</s>")
+
+    .replace(/(^|[\s>])=([^=\n]+?)=(?=\s|$|[<.,!?;:])/gim, "$1<mark>$2</mark>")
+
+    .replace(/(^|[\s>])~([^~\s\n][^~\n]*?)~(?=\s|$|[<.,!?;:])/gim, "$1<sub>$2</sub>")
+    .replace(/(^|[\s>])\^([^^\s\n][^^\n]*?)\^(?=\s|$|[<.,!?;:])/gim, "$1<sup>$2</sup>")
 
     // blockquote
     .replace(/^(?:> .*(?:\r?\n|$))+/gm, (block) => {

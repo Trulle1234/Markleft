@@ -13,6 +13,11 @@ Paragraph
 _Underline_
 -Strikethrough-
 
+=Highlight=
+
+Sper ^script^
+Sub ~script~
+
 ---
 
 [https://hackclub.com/](Link)
