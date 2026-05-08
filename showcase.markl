@@ -39,7 +39,7 @@ Sub ~script~
     <p>Code block</p>
 </body>>%
 
-inline %code%
+Inline %code%
 
 ---
 
