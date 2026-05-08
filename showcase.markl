@@ -51,5 +51,5 @@ Sub ~script~
 
 ---
 
-<div style="color:red;">html test</div>
+<div style="color:red;">HTML gets through</div>
 ---
