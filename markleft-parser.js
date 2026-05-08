@@ -19,7 +19,7 @@ export function parseMarkdown(markdown) {
     .replace(/^---(.*$)/gim, "<hr>")
 
     // image
-    .replace(/\!\[([^\]]+)\]\(([^)]+)\)/gim, '<img src="$1" alt="$2">')
+    .replace(/\#\[([^\]]+)\]\(([^)]+)\)/gim, '<img src="$1" alt="$2">')
 
     // link
     .replace(/\[([^\]]+)\]\(([^)]+)\)/gim, '<a href="$1">$2</a>')
