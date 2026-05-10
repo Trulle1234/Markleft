@@ -10,6 +10,34 @@ function escapeHtml(text) {
     }[char]));
 }
 
+// note that this functon is AI made
+function tocGenerator(html, ignoreText = "") {
+  const ignoredIds = ignoreText
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .map((item) => item.replace(/^#/, ""));
+
+  const headings = [...html.matchAll(/<h([1-6]) id="([^"]+)">([\s\S]*?)<\/h\1>/gi)];
+
+  const items = headings
+    .filter((heading) => {
+      const id = heading[2];
+      return !ignoredIds.includes(id);
+    })
+    .map((heading) => {
+      const level = Number(heading[1]);
+      const id = heading[2];
+      const text = heading[3].replace(/<[^>]*>/g, "");
+
+      return `<li class="toc-level-${level}"><a href="#${id}">${text}</a></li>`;
+    });
+
+  if (items.length === 0) return "";
+
+  return `<nav class="toc"><ul>${items.join("")}</ul></nav>`;
+}
+
 export function parseMarkdown(markdown) {
   const codeBlocks = [];
 
@@ -45,13 +73,25 @@ export function parseMarkdown(markdown) {
     .replace(/^## (.*?) \{#(.*?)\}$/gim, '<h2 id="$2">$1</h2>')
     .replace(/^# (.*?) \{#(.*?)\}$/gim, '<h1 id="$2">$1</h1>')
 
-    .replace(/^###### (.*$)/gim, "<h6>$1</h6>")
-    .replace(/^##### (.*$)/gim, "<h5>$1</h5>")
-    .replace(/^#### (.*$)/gim, "<h4>$1</h4>")
-    .replace(/^### (.*$)/gim, "<h3>$1</h3>")
-    .replace(/^## (.*$)/gim, "<h2>$1</h2>")
-    .replace(/^# (.*$)/gim, "<h1>$1</h1>")
-    
+    .replace(/^###### (.*$)/gim, (_, text) => {
+      const id = text.toLowerCase().replace(/\s+/g, "-");
+      return `<h6 id="${id}">${text}</h6>`;})
+    .replace(/^##### (.*$)/gim, (_, text) => {
+      const id = text.toLowerCase().replace(/\s+/g, "-");
+      return `<h5 id="${id}">${text}</h5>`;})
+    .replace(/^#### (.*$)/gim, (_, text) => {
+      const id = text.toLowerCase().replace(/\s+/g, "-");
+      return `<h4 id="${id}">${text}</h4>`;})
+    .replace(/^### (.*$)/gim, (_, text) => {
+      const id = text.toLowerCase().replace(/\s+/g, "-");
+      return `<h3 id="${id}">${text}</h3>`;})
+    .replace(/^## (.*$)/gim, (_, text) => {
+      const id = text.toLowerCase().replace(/\s+/g, "-");
+      return `<h2 id="${id}">${text}</h2>`;})
+    .replace(/^# (.*$)/gim, (_, text) => {
+      const id = text.toLowerCase().replace(/\s+/g, "-");
+      return `<h1 id="${id}">${text}</h1>`;})
+
     // emphasis
     .replace(/[\s\S]*/, (text) => {
       let previous;
@@ -85,11 +125,11 @@ export function parseMarkdown(markdown) {
       return `<blockquote>${content}</blockquote>`;})
       
     // lists
-    .replace(/^(?:[0-999999]\. .*(?:\r?\n|$))+/gm, (block) => {
+    .replace(/^(?:\d+\. .*(?:\r?\n|$))+/gm, (block) => {
       const content = block
         .trimEnd()
         .split(/\r?\n/)
-        .map((line) => line.replace(/^[0-999999]\. ?/, ""))
+        .map((line) => line.replace(/^\d+\. ?/, ""))
         .map((line) => `<li>${line}</li>`)
         .join("");
       return `<ol>${content}</ol>`;})
@@ -102,7 +142,7 @@ export function parseMarkdown(markdown) {
         .map((line) => `<li>${line}</li>`)
         .join("");
       return `<ul>${content}</ul>`;})
-    
+
     // paragraphs
     .replace(/^(?!<(h[1-6]|hr|ul|ol|li|blockquote|pre|img|code|pre)\b)(.+)$/gim, "<p>$2</p>")
 
@@ -115,7 +155,13 @@ export function parseMarkdown(markdown) {
 
     // restore code blocks
     .replace(/\uE100(\d+)\uE101/g, (_, index) => {
-      return codeBlocks[Number(index)];})
+      return codeBlocks[Number(index)];});
+    
+    
+  // table of contents
+  html = html.replace(/<p>\[TOC\](?:\s*\{\!\s*([^}]*)\})?<\/p>/gi, (_, ignoreText = "") => {
+    return tocGenerator(html, ignoreText);
+  });
 
-    return html;
+  return html;
 }
