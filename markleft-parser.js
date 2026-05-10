@@ -66,12 +66,12 @@ export function parseMarkdown(markdown) {
     .replace(/\[([^\]]+)\]\(([^)]+)\)/gim, '<a href="$1">$2</a>')
 
     // headigs
-    .replace(/^###### (.*?) \{#(.*?)\}$/gim, '<h6 id="$2">$1</h6>')
-    .replace(/^##### (.*?) \{#(.*?)\}$/gim, '<h5 id="$2">$1</h5>')
-    .replace(/^#### (.*?) \{#(.*?)\}$/gim, '<h4 id="$2">$1</h4>')
-    .replace(/^### (.*?) \{#(.*?)\}$/gim, '<h3 id="$2">$1</h3>')
-    .replace(/^## (.*?) \{#(.*?)\}$/gim, '<h2 id="$2">$1</h2>')
-    .replace(/^# (.*?) \{#(.*?)\}$/gim, '<h1 id="$2">$1</h1>')
+    .replace(/^###### (.*?) \{#(.*?)\}\s*$/gim, '<h6 id="$2">$1</h6>')
+    .replace(/^##### (.*?) \{#(.*?)\}\s*$/gim, '<h5 id="$2">$1</h5>')
+    .replace(/^#### (.*?) \{#(.*?)\}\s*$/gim, '<h4 id="$2">$1</h4>')
+    .replace(/^### (.*?) \{#(.*?)\}\s*$/gim, '<h3 id="$2">$1</h3>')
+    .replace(/^## (.*?) \{#(.*?)\}\s*$/gim, '<h2 id="$2">$1</h2>')
+    .replace(/^# (.*?) \{#(.*?)\}\s*$/gim, '<h1 id="$2">$1</h1>')
 
     .replace(/^###### (.*$)/gim, (_, text) => {
       const id = text.toLowerCase().replace(/\s+/g, "-");
@@ -144,7 +144,7 @@ export function parseMarkdown(markdown) {
       return `<ul>${content}</ul>`;})
 
     // paragraphs
-    .replace(/^(?!<(h[1-6]|hr|ul|ol|li|blockquote|pre|img|code|pre)\b)(.+)$/gim, "<p>$2</p>")
+    .replace(/^(?!<(h[1-6]|hr|ul|ol|li|blockquote|pre|img|code)\b)(.+)$/gim, "<p>$2</p>")
 
     // emojis
     .replace(/:([a-z0-9_+-]+):/gi, (_, name) => {
@@ -159,9 +159,15 @@ export function parseMarkdown(markdown) {
     
     
   // table of contents
-  html = html.replace(/<p>\[TOC\](?:\s*\{\!\s*([^}]*)\})?<\/p>/gi, (_, ignoreText = "") => {
+  html = html
+  .replace(/<p>\[TOC\](?:\s*\{\!\s*([^}]*)\})?<\/p>/gi, (_, ignoreText = "") => {
     return tocGenerator(html, ignoreText);
-  });
+  })
+
+  // center
+  .replace(/\+<(p|h[1-6]|)([^>]*)>([\s\S]*?)<\/\1>/gi,
+  '<div style="text-align:center;"><$1$2>$3</$1></div>');    
+    
 
   return html;
 }

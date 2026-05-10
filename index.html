@@ -5,26 +5,35 @@
   </head>
 
   <body>
-    <div id="content">loading...</div>
+
+    <h1><u>Playground</u></h1>
+
+    <textarea id="input" rows="25" cols="90"></textarea>
+
+    <h3>Output:</h3>
+    <div id="output"></div>
+    <br>
+
+    <hr>
+    <h1><u>Showcase</u></h1>
+
+    <div id="showcase">loading...</div>
 
     <script type="module">
       import { parseMarkdown } from "./markleft-parser.js";
 
+      const input = document.querySelector("#input");
+      const output = document.querySelector("#output");
+      const showcase = document.querySelector("#showcase")
+
+      input.addEventListener("input", () => {
+        output.innerHTML = parseMarkdown(input.value);
+      });
+
       fetch("showcase.markl")
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("could not load file");
-          }
-
-          return response.text();
-        })
+        .then((response) => response.text())
         .then((markdown) => {
-          const html = parseMarkdown(markdown);
-
-          document.getElementById("content").innerHTML = html;
-        })
-        .catch((error) => {
-          document.getElementById("content").textContent = error.message;
+          showcase.innerHTML = parseMarkdown(markdown);
         });
     </script>
   </body>
