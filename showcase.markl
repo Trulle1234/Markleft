@@ -63,6 +63,13 @@ Inline %code%
 
 ---
 
+Emoji using shortcodes:
+:apple:
+:sob:
+:+1:
+
+---
+
 <div style="color:red;">HTML gets through</div>
 
 ---

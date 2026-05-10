@@ -1,5 +1,7 @@
 // ps: i konw this code is awfull but if it works it works? ;-;
 
+import { emojis } from "./emojis.js";
+
 function escapeHtml(text) {
   return text.replace(/[&<>]/g, (char) => ({
     "&": "&amp;",
@@ -20,7 +22,7 @@ export function parseMarkdown(markdown) {
       return `\uE100${index}\uE101`;})
       
     // escaping
-    .replace(/\\([\\*\/_\-=~^#[\]()!>%])/gim, (_, char) => {
+    .replace(/\\([\\*\/_\-=~^#[\]():!>%])/gim, (_, char) => {
       return `\uE000${char}\uE001`;})
 
     // line
@@ -103,6 +105,10 @@ export function parseMarkdown(markdown) {
     
     // paragraphs
     .replace(/^(?!<(h[1-6]|hr|ul|ol|li|blockquote|pre|img|code|pre)\b)(.+)$/gim, "<p>$2</p>")
+
+    // emojis
+    .replace(/:([a-z0-9_+-]+):/gi, (_, name) => {
+      return emojis[name.toLowerCase()] || `:${name}:`;})
 
     // unescape
     .replace(/\uE000(.?)\uE001/gim, "$1")

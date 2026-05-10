@@ -4,26 +4,28 @@
     <title>Markleft</title>
   </head>
 
-  <div id="content">loading...</div>
+  <body>
+    <div id="content">loading...</div>
 
-  <script type="module">
-    import { parseMarkdown } from "./markleft-parser.js";
+    <script type="module">
+      import { parseMarkdown } from "./markleft-parser.js";
 
-    fetch("showcase.markl")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("could not load file");
-        }
+      fetch("showcase.markl")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("could not load file");
+          }
 
-        return response.text();
-      })
-      .then((markdown) => {
-        const html = parseMarkdown(markdown);
+          return response.text();
+        })
+        .then((markdown) => {
+          const html = parseMarkdown(markdown);
 
-        document.getElementById("content").innerHTML = html;
-      })
-      .catch((error) => {
-        document.getElementById("content").textContent = error.message;
-      });
-  </script>
-<html>
+          document.getElementById("content").innerHTML = html;
+        })
+        .catch((error) => {
+          document.getElementById("content").textContent = error.message;
+        });
+    </script>
+  </body>
+</html>
