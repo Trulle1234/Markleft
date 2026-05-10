@@ -1,5 +1,5 @@
-Auto table of contents:
-[TOC] {! #footnote-1, #in-page-link}
+### Auto table of contents: {#toc}
+[TOC] {! #toc, #footnote-1}
 
 ---
 
