@@ -39,6 +39,26 @@ function tocGenerator(html, ignoreText = "") {
 }
 
 export function parseMarkdown(markdown) {
+  // metadata
+  let metadata = {};
+
+  if (markdown.startsWith("{meta}")) {
+    const end = markdown.indexOf("{/meta}");
+    if (end !== -1) {
+      const metaContent = markdown.substring(7, end);
+      const lines = metaContent.split("\n").map(line => line.trim()).filter(line => line);
+      for (const line of lines) {
+        const colon = line.indexOf(":");
+        if (colon !== -1) {
+          const key = line.substring(0, colon).trim();
+          const value = line.substring(colon + 1).trim();
+          metadata[key] = value;
+        }
+      }
+      markdown = markdown.substring(end + 7).trim();
+    }
+  }
+
   const codeBlocks = [];
 
   let html = markdown
@@ -114,6 +134,9 @@ export function parseMarkdown(markdown) {
 
       return text;})
 
+    // collapsible section
+    .replace(/^\? (.*?) \[(.*?)\]\s*$/gim, "<details><summary>$2</summary>$1</details>")
+
     // blockquote
     .replace(/^(?:> .*(?:\r?\n|$))+/gm, (block) => {
       const content = block
@@ -164,10 +187,5 @@ export function parseMarkdown(markdown) {
     return tocGenerator(html, ignoreText);
   })
 
-  // center
-  .replace(/\+<(p|h[1-6]|)([^>]*)>([\s\S]*?)<\/\1>/gi,
-  '<div style="text-align:center;"><$1$2>$3</$1></div>');    
-    
-
-  return html;
+  return { metadata, html };
 }

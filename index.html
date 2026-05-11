@@ -10,7 +10,7 @@
 
     <textarea id="input" rows="25" cols="90"></textarea>
 
-    <h3>Output:</h3>
+    <h2>Output:</h2>
     <div id="output"></div>
     <br>
 
@@ -27,13 +27,13 @@
       const showcase = document.querySelector("#showcase")
 
       input.addEventListener("input", () => {
-        output.innerHTML = parseMarkdown(input.value);
+        output.innerHTML = parseMarkdown(input.value).html;
       });
 
       fetch("showcase.markl")
         .then((response) => response.text())
         .then((markdown) => {
-          showcase.innerHTML = parseMarkdown(markdown);
+          showcase.innerHTML = parseMarkdown(markdown).html;
         });
     </script>
   </body>

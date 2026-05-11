@@ -1,3 +1,9 @@
+{meta}
+title: Showcase
+author: Trulle123
+description: A showcase of Markleft
+{/meta}
+
 ### Auto table of contents: {#toc}
 [TOC] {! #toc, #footnote-1}
 
@@ -10,6 +16,7 @@
 ##### Heading 5
 ###### Heading 6
 ## Heading with custom ID {#heading-id}
+
 ---
 
 Paragraph
@@ -49,6 +56,10 @@ Sub ~script~
 </body>]%
 
 Inline %code%
+
+---
+
+? Content [Collapsible section]
 
 ---
 
