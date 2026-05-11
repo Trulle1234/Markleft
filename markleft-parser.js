@@ -73,6 +73,9 @@ export function parseMarkdown(markdown) {
     .replace(/\\([\\*\/_\-=~^#[\]():!>%])/gim, (_, char) => {
       return `\uE000${char}\uE001`;})
 
+    // reference metadata
+    .replace(/meta\{(.*?)\}/gim, (_, key) => {
+      return metadata[key.trim()] || "";})
     // line
     .replace(/^---(.*$)/gim, "<hr>")
 
@@ -80,7 +83,9 @@ export function parseMarkdown(markdown) {
     .replace(/^\.\s*$/gim, "<br>")
 
     // image
-    .replace(/\#\[([^\]]+)\]\(([^)]+)\)/gim, '<img src="$1" alt="$2">')
+    .replace(/#\[([^\]]+)\]\(([^)]+)\)\s*\{(.*?)\}/gim, '<img src="$1" alt="$2" style="width: $3;">')
+
+    .replace(/#\[([^\]]+)\]\(([^)]+)\)/gim, '<img src="$1" alt="$2">')
 
     // link
     .replace(/\[([^\]]+)\]\(([^)]+)\)/gim, '<a href="$1">$2</a>')

@@ -2,7 +2,19 @@
 title: Showcase
 author: Trulle123
 description: A showcase of Markleft
+example: #[https://assets.hackclub.com/icon-square.svg](Image with custom size) {15px}
 {/meta}
+
+---
+
+Metadata can be referenced in the doc (it also gets sent as a part of the returned object): 
+
+meta{title}
+meta{author}
+meta{description}
+meta{example}
+
+---
 
 ### Auto table of contents: {#toc}
 [TOC] {! #toc, #footnote-1}
@@ -27,7 +39,7 @@ _Underline_
 
 =Highlight=
 
-Sper ^script^
+Super ^script^
 Sub ~script~
 
 ---
@@ -39,6 +51,9 @@ Sub ~script~
 [https://hackclub.com/](Link)
 
 #[https://assets.hackclub.com/icon-square.svg](Image)
+
+#[https://assets.hackclub.com/icon-square.svg](Image with custom size) {10%}
+
 
 ---
 
@@ -68,11 +83,11 @@ Inline %code%
 
 ---
 
-1. Orderd list
-2. Orderd list
+1. Ordered  list
+2. Ordered  list
 
-0. Orderd list
-0. Orderd list
+0. Ordered  list
+0. Ordered  list
 
 - Unordered list
 - Unordered list
