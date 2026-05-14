@@ -12,28 +12,41 @@
 
     <h2>Output:</h2>
     <div id="output"></div>
-    <br>
 
     <hr>
     <h1><u>Showcase</u></h1>
-
     <div id="showcase">loading...</div>
 
+    <br>
+
+    <h1><u>Showcase Source</u></h1>
+    <div id="showcase-src">loading...</div>
+
     <script type="module">
-      import { parseMarkdown } from "./markleft-parser.js";
+      import { parseMarkleft } from "./markleft-parser.js";
 
       const input = document.querySelector("#input");
       const output = document.querySelector("#output");
       const showcase = document.querySelector("#showcase")
+      const showcaseSrc = document.querySelector("#showcase-src")
 
       input.addEventListener("input", () => {
-        output.innerHTML = parseMarkdown(input.value).html;
+        output.innerHTML = parseMarkleft(input.value).html;
       });
 
       fetch("showcase.markl")
         .then((response) => response.text())
-        .then((markdown) => {
-          showcase.innerHTML = parseMarkdown(markdown).html;
+        .then((markleft) => {
+          showcase.innerHTML = parseMarkleft(markleft).html;
+        });
+
+      fetch("showcase.markl")
+        .then((response) => response.text())
+        .then((markleft) => {
+          showcaseSrc.innerHTML = "<code><pre></pre></code>";
+
+          const pre = showcaseSrc.querySelector("pre");
+          pre.textContent = markleft;
         });
     </script>
   </body>

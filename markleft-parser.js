@@ -38,7 +38,7 @@ function tocGenerator(html, ignoreText = "") {
   return `<nav class="toc"><ul>${items.join("")}</ul></nav>`;
 }
 
-export function parseMarkdown(markdown) {
+export function parseMarkleft(markdown) {
   // metadata
   let metadata = {};
 

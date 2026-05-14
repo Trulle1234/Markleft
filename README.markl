@@ -12,7 +12,7 @@
 (A setup similar to mine)
 
 *Or use jsDelivr*
-Like this: %import { parseMarkdown } from "https://cdn.jsdelivr.net/gh/Trulle1234/Markleft@main/markleft-parser.js";%
+Like this: %import { parseMarkleft } from "https://cdn.jsdelivr.net/gh/Trulle1234/Markleft@main/markleft-parser.js";%
 /:warning: This will likely be quite slow/
 
 .
