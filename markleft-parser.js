@@ -76,6 +76,10 @@ export function parseMarkdown(markdown) {
     // reference metadata
     .replace(/meta\{(.*?)\}/gim, (_, key) => {
       return metadata[key.trim()] || "";})
+    
+    // comments
+    .replace(/^%%.*$/gim, "")
+
     // line
     .replace(/^---(.*$)/gim, "<hr>")
 
@@ -84,10 +88,10 @@ export function parseMarkdown(markdown) {
 
     // image
     .replace(/#\[([^\]]+)\]\(([^)]+)\)\s*\{(.*?)\}/gim, '<img src="$1" alt="$2" style="width: $3;">')
-
     .replace(/#\[([^\]]+)\]\(([^)]+)\)/gim, '<img src="$1" alt="$2">')
 
     // link
+    .replace(/\[http([^\]]+)\]\(([^)]+)\)/gim, '<a target="_blank" href="http$1">$2</a>')
     .replace(/\[([^\]]+)\]\(([^)]+)\)/gim, '<a href="$1">$2</a>')
 
     // headigs
@@ -138,6 +142,10 @@ export function parseMarkdown(markdown) {
       } while (text !== previous);
 
       return text;})
+
+    // checkbox
+    .replace(/\[\s*\](.*?)\s*$/gim, '<input type="checkbox" disabled>$1')
+    .replace(/\[[xX]\](.*?)\s*$/gim, '<input type="checkbox" checked disabled>$1')
 
     // collapsible section
     .replace(/^\? (.*?) \[(.*?)\]\s*$/gim, "<details><summary>$2</summary>$1</details>")

@@ -61,7 +61,10 @@ Sub ~script~
 .
 %"<br>"%
 
+
 ---
+
+%% Comment
 
 %[<!DOCTYPE html>
 <body>
@@ -91,6 +94,11 @@ Inline %code%
 
 - Unordered list
 - Unordered list
+
+---
+
+[ ] Checkboxes
+[x] Checkboxes
 
 ---
 
