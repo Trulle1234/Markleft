@@ -180,7 +180,7 @@ export function parseMarkdown(markdown) {
       return `<ul>${content}</ul>`;})
 
     // paragraphs
-    .replace(/^(?!<(h[1-6]|hr|ul|ol|li|blockquote|pre|img|code)\b)(.+)$/gim, "<p>$2</p>")
+    .replace(/^([^\n<].*)$/gim, "<p>$1</p>")
 
     // emojis
     .replace(/:([a-z0-9_+-]+):/gi, (_, name) => {
