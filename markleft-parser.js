@@ -196,9 +196,9 @@ export function parseMarkdown(markdown) {
     
   // table of contents
   html = html
-  .replace(/<p>\[TOC\](?:\s*\{\!\s*([^}]*)\})?<\/p>/gi, (_, ignoreText = "") => {
+  .replace(/<p>.*?\s+\{#[0-9A-Fa-f]{3,8}\}<p>/gi, (_, ignoreText = "") => {
     return tocGenerator(html, ignoreText);
-  })
-
+  });
+  
   return { metadata, html };
 }
